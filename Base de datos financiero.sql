@@ -111,7 +111,7 @@ descripcion_de_recompensa varchar (40),
 valor_recompensa money,
 fecha_recompensa date
 )
-/**/
+
 alter table compensacion add total_recompensa as valor_recompensa*1.2
 
 select * from compensacion
