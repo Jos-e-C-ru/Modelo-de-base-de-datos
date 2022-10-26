@@ -460,38 +460,7 @@ end
 exec PA_historial_usuario 1
 
 
-/* PRUEBA DE IMPRESION DE INFORMACION */
-
-
-/*
-alter proc PA_historial
-@ID_historial_caja int,
-@desc_rrhh varchar
-as
-begin
-
-select @ID_historial_caja[caja], @desc_rrhh [rrhh], i.ID_informe_mercado, r.ID_informe_rrhh, i.total_de_mercado
-from finanza_flujo_de_caja f
-
-inner join informe_de_mercado i
-on i.ID_informe_mercado = f.ID_informe_mercado
-inner join informe_de_RRHH r
-on f.ID_informe_rrhh = r.descripcion_de_rrhh
-
-where @ID_historial_caja = f.ID_finanza
-and @desc_rrhh = r.descripcion_de_rrhh
-group by i.ID_informe_mercado, r.ID_informe_rrhh, i.total_de_mercado
-
-end
-
-select * from informe_de_mercado
-
-select * from informe_de_RRHH
-
-exec PA_historial 1, 'mano de obra'
-
-*/
-
+/*  FIN */
 
 
 
