@@ -2,7 +2,6 @@ create database proyecto_grupo_#3
 
 use proyecto_grupo_#3
 
-/* prueba 2 */
 create table usuario
 (
 usuario_ID int identity primary key,
@@ -38,6 +37,8 @@ descripcion_produccion_de_marca varchar (30),
 cantidad_produccion_de_marca int,
 valor_produccion money
 )
+
+
 
 
 create table instalacion_de_produccion
@@ -108,9 +109,10 @@ create table compensacion
 ID_compensacion int primary key identity,
 descripcion_de_recompensa varchar (40),
 valor_recompensa money,
-total_recompensa money,
 fecha_recompensa date
 )
+/**/
+alter table compensacion add total_recompensa as valor_recompensa*1.2
 
 select * from compensacion
 select * from usuario
