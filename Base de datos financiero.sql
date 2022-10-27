@@ -20,6 +20,8 @@ add nombre varchar (35)
 
 select * from usuario
 
+select * from compensacion
+
 
 /* prueba 1 */
 
@@ -201,7 +203,7 @@ create trigger TR_compensacion_insert
  as
  print 'Informacion Agregada';
 
- insert into compensacion(descripcion_de_recompensa, valor_recompensa, total_recompensa, fecha_recompensa) values ('Credito_de_tercero', 12350.05, 12350.05*1.15 , '23/12/2022');
+ insert into compensacion(descripcion_de_recompensa, valor_recompensa, fecha_recompensa) values ('BONO', 12350.05, '23/12/2022');
 
  select * from compensacion
 
@@ -228,6 +230,8 @@ create trigger TR_distribucion_y_almacenamiento_insert
  insert into distribucion_y_almacenamiento values ('Distribucion A3','Santa Barbara');
 
  select * from distribucion_y_almacenamiento
+
+ select * from finanza_flujo_de_caja
 
 
  /*-----------------TR_Instalacion_de_produccion-------------------------*/
