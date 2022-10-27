@@ -1,7 +1,7 @@
 create database proyecto_grupo_#3
 
 use proyecto_grupo_#3
-
+/* prueba */ 
 create table usuario
 (
 usuario_ID int identity primary key,
