@@ -5,7 +5,7 @@ use proyecto_grupo_#3
 
 create table usuario
 (
-usuario_ID int identity primary key,
+usuario_ID int identity (1,1) primary key,
 nombre_de_usuario varchar (30),
 contrasena varchar (25),
 emali varchar (30),
@@ -21,39 +21,75 @@ add nombre varchar (35)
 select * from usuario
 
 select * from compensacion
+/* procedimiento almacenado de cada valor */
+create proc lista_usuario
+as
+select * from usuario order by nombre_de_usuario asc
+go
 
+exec lista_usuario
 
-/* prueba 1 */
+/* fin de insercion */
 
+/*--------------------------------------------------------------------- */ 
 
 create table distribucion_y_almacenamiento
 (
-almacenamiento_ID int primary key identity,
+almacenamiento_ID int identity (1,1) primary key,
 descripcion_de_almacenamiento varchar (30),
 localizacion varchar (30)
 )
 
+/* procedimiento almacenado de cada valor */
+create proc lista_almacenamiento
+as
+select * from distribucion_y_almacenamiento order by descripcion_de_almacenamiento asc
+go
+
+exec lista_almacenamiento
+
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
+
 create table produccion_marca
 (
-ID_produccion int primary key identity,
+ID_produccion int identity (1,1) primary key ,
 descripcion_produccion_de_marca varchar (30),
 cantidad_produccion_de_marca int,
 valor_produccion money
 )
 
 
+select * from produccion_marca
 
+select * from distribucion_y_almacenamiento
+
+/* procedimiento almacenado de cada valor */
+create proc lista_produccion_marca
+as
+select * from produccion_marca order by descripcion_produccion_de_marca asc
+go
+
+exec lista_produccion_marca
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
 
 create table instalacion_de_produccion
 (
-ID_instalacion int primary key identity,
+ID_instalacion int identity (1,1) primary key,
 Descripcion_de_instalacion_de_produccion varchar (40),
 valor_de_instalacion money,
-ID_produccion int foreign key references produccion_marca(ID_produccion),
-almacenamiento_ID int foreign key references distribucion_y_almacenamiento(almacenamiento_ID)
+ID_produccion int,
+almacenamiento_ID int,
+
+constraint producccion_marca_ID foreign key (ID_produccion) references produccion_marca(ID_produccion),
+constraint almacenamiento_ID foreign key (almacenamiento_ID) references distribucion_y_almacenamiento(almacenamiento_ID)
 )
 
-
+insert into instalacion_de_produccion values
+('CEPA',10500.03)
 
 
 create table estado_financiero
@@ -112,7 +148,7 @@ create table compensacion
 ID_compensacion int primary key identity,
 descripcion_de_recompensa varchar (40),
 valor_recompensa money,
-fecha_recompensa date
+fecha_recompensa varchar (20)
 )
 
 alter table compensacion add total_recompensa as valor_recompensa*1.2
@@ -203,7 +239,7 @@ create trigger TR_compensacion_insert
  as
  print 'Informacion Agregada';
 
- insert into compensacion(descripcion_de_recompensa, valor_recompensa, fecha_recompensa) values ('BONO', 12350.05, '23/12/2022');
+ insert into compensacion(descripcion_de_recompensa, valor_recompensa, fecha_recompensa) values ('BONO', 12350.05, '23/12/2023');
 
  select * from compensacion
 
@@ -215,7 +251,7 @@ create trigger TR_produccion_marca_insert
  as
  print 'Informacion Agregada';
 
- insert into produccion_marca values ('Abani', 160, 12400.25);
+ insert into produccion_marca values ('Abani', 160, 12400.25)
 
  select * from produccion_marca
 
@@ -242,7 +278,7 @@ create trigger TR_distribucion_y_almacenamiento_insert
  as
 print 'informacion agregada';
 
-insert into instalacion_de_produccion values ('CEPAC', 12500.43, 1, 1)
+insert into instalacion_de_produccion values ('CEPA', 12500.43, 1, 1)
 
 select * from instalacion_de_produccion
 
@@ -329,6 +365,10 @@ print 'Informacion agregada'
 insert into ratio values ('valor por costos', 400.02, 450.03, 1)
 
 select * from ratio
+
+select * from produccion_marca
+
+
 
 /*--------TR_estado_financiero-------------*/
 
