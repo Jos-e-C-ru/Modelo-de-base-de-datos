@@ -88,6 +88,21 @@ constraint producccion_marca_ID foreign key (ID_produccion) references produccio
 constraint almacenamiento_ID foreign key (almacenamiento_ID) references distribucion_y_almacenamiento(almacenamiento_ID)
 )
 
+select  * from instalacion_de_produccion
+
+/* procedimiento almacenado de cada valor */
+create proc lista_instalacion_de_produccion
+as
+select * from instalacion_de_produccion order by Descripcion_de_instalacion_de_produccion asc
+go
+
+exec lista_instalacion_de_produccion
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
+
+
+
 insert into instalacion_de_produccion values
 ('CEPA',10500.03)
 
@@ -101,6 +116,17 @@ total_de_estado money,
 fecha_valor_de_estado date
 )
 
+/* procedimiento almacenado de cada valor */
+create proc lista_estado_financiero
+as
+select * from estado_financiero order by descripcion_de_estado asc
+go
+
+exec lista_estado_financiero
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
+
 create table ratio
 (
 ID_ratio int primary key identity,
@@ -110,6 +136,17 @@ total_de_ratio money,
 ID_estado int foreign key references estado_financiero(ID_estado)
 )
 
+/* procedimiento almacenado de cada valor */
+create proc lista_ratio
+as
+select * from ratio order by descripcion_de_ratio asc
+go
+
+exec lista_ratio
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
+
 create table informe_de_RRHH
 (
 ID_informe_rrhh int primary key identity,
@@ -117,6 +154,17 @@ descripcion_de_rrhh varchar (30),
 valor_de_rrhh money,
 total_rrhh money
 )
+
+/* procedimiento almacenado de cada valor */
+create proc lista_rrhh
+as
+select * from informe_de_RRHH order by descripcion_de_rrhh asc
+go
+
+exec lista_rrhh
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
 
 create table informe_de_mercado
 (
@@ -127,12 +175,34 @@ total_de_mercado money,
 ID_informe_rrhh int foreign key references informe_de_RRHH(ID_informe_rrhh)
 )
 
+/* procedimiento almacenado de cada valor */
+create proc lista_informe_mercado
+as
+select * from informe_de_mercado order by descripcion_informe_mercado asc
+go
+
+exec lista_informe_mercado
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
+
 create table responsabilidad_social
 (
 ID_responsabilidad_social int primary key identity,
 descripcion_responsabilidad_social varchar (30),
 valor_responsabilidad_social money
 )
+
+/* procedimiento almacenado de cada valor */
+create proc lista_responsabilidad_social
+as
+select * from responsabilidad_social order by descripcion_responsabilidad_social asc
+go
+
+exec lista_responsabilidad_social
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
 
 create table informe_de_costes
 (
@@ -142,6 +212,17 @@ valor_costes money,
 total_costes money,
 ID_responsabilidad_social int foreign key references responsabilidad_social(ID_responsabilidad_social)
 )
+
+/* procedimiento almacenado de cada valor */
+create proc lista_informe_de_costes
+as
+select * from informe_de_costes order by descripcion_costes asc
+go
+
+exec lista_informe_de_costes
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
 
 create table compensacion
 (
@@ -156,6 +237,17 @@ alter table compensacion add total_recompensa as valor_recompensa*1.2
 select * from compensacion
 select * from usuario
 
+/* procedimiento almacenado de cada valor */
+create proc lista_recompensa
+as
+select * from compensacion order by descripcion_de_recompensa asc
+go
+
+exec lista_recompensa
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
+
 
 
 create table fecha
@@ -164,6 +256,17 @@ ID_fecha int primary key identity,
 fecha_inicial date,
 fecha_final date
 )
+
+/* procedimiento almacenado de cada valor */
+create proc lista_fecha
+as
+select * from fecha order by ID_fecha asc
+go
+
+exec lista_fecha
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
 
 
 /*       Finanza                     */
@@ -189,6 +292,18 @@ alter table finanza_flujo_de_caja
 add ID_responsabilidad_social int foreign key references responsabilidad_social (ID_responsabilidad_social)
 
 
+/* procedimiento almacenado de cada valor */
+create proc lista_finanza
+as
+select * from finanza_flujo_de_caja order by ID_finanza asc
+go
+
+exec lista_finanza
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
+
+
 /*      Tabla de recopilacion                        */
 create table historial_de_usuario
 (
@@ -198,12 +313,34 @@ ID_finanza int foreign key references finanza_flujo_de_caja(ID_finanza),
 ID_fecha int foreign key references fecha(ID_fecha)
 )
 
+/* procedimiento almacenado de cada valor */
+create proc lista_historia_de_usuario
+as
+select * from historial_de_usuario order by ID_historial_usuario asc
+go
+
+exec lista_historia_de_usuario
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
+
 /*      Informacion descriptiva                                     */
 create table historial_de_informacion
 (
 ID_historial int primary key identity,
 ID_historial_usuario int foreign key references historial_de_usuario(ID_historial_usuario)
 )
+
+/* procedimiento almacenado de cada valor */
+create proc lista_historial_informacion
+as
+select * from historial_de_informacion order by ID_historial asc
+go
+
+exec lista_historial_informacion
+/* fin de insercion */
+
+/*--------------------------------------------------------------------- */
 
 /* --------------------------------------------------------------------------------------------- */
  /* Triggers */
