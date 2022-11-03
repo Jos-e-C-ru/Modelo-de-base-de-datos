@@ -88,7 +88,7 @@ constraint producccion_marca_ID foreign key (ID_produccion) references produccio
 constraint almacenamiento_ID foreign key (almacenamiento_ID) references distribucion_y_almacenamiento(almacenamiento_ID)
 )
 
-select  * from instalacion_de_produccion
+select  * from distribucion_y_almacenamiento
 
 /* procedimiento almacenado de cada valor */
 create proc lista_instalacion_de_produccion
@@ -232,6 +232,8 @@ valor_recompensa money,
 fecha_recompensa varchar (20)
 )
 
+ 
+
 alter table compensacion add total_recompensa as valor_recompensa*1.2
 
 select * from compensacion
@@ -267,7 +269,7 @@ exec lista_fecha
 /* fin de insercion */
 
 /*--------------------------------------------------------------------- */
-
+select * from estado_financiero
 
 /*       Finanza                     */
 create table finanza_flujo_de_caja
@@ -376,7 +378,9 @@ create trigger TR_compensacion_insert
  as
  print 'Informacion Agregada';
 
- insert into compensacion(descripcion_de_recompensa, valor_recompensa, fecha_recompensa) values ('BONO', 12350.05, '23/12/2023');
+ insert into compensacion(descripcion_de_recompensa, valor_recompensa, fecha_recompensa) values ('CREDITO', 12350.05, '23/12/2023');
+
+ 
 
  select * from compensacion
 
