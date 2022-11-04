@@ -60,6 +60,7 @@ cantidad_produccion_de_marca int,
 valor_produccion money
 )
 
+delete from produccion_marca where ID_produccion = 3
 
 select * from produccion_marca
 
@@ -293,6 +294,7 @@ add ID_ratio int foreign key references ratio(ID_ratio)
 alter table finanza_flujo_de_caja
 add ID_responsabilidad_social int foreign key references responsabilidad_social (ID_responsabilidad_social)
 
+select * from finanza_flujo_de_caja
 
 /* procedimiento almacenado de cada valor */
 create proc lista_finanza
