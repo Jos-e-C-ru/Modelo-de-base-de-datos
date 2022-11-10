@@ -20,6 +20,8 @@ add nombre varchar (35)
 
 select * from usuario
 
+update usuario set nombre_de_usuario = 'jose' where usuario_ID = 3
+
 select * from compensacion
 /* procedimiento almacenado de cada valor */
 create proc lista_usuario
@@ -648,6 +650,98 @@ group by u.usuario_ID, f.fecha_inicial, f.fecha_inicial
 end
 
 exec PA_historial_usuario 1
+
+
+
+
+/* Procedimiento almacenado Estado financiero */
+
+
+alter proc finanza_estado
+as
+
+select finanza_flujo_de_caja.ID_compensacion [compesacion_ID], descripcion_produccion_de_marca [Marca],(total_recompensa - valor_de_instalacion) + valor_produccion [TOTAL ESTADO], finanza_total
+from compensacion
+inner join finanza_flujo_de_caja on compensacion.ID_compensacion = finanza_flujo_de_caja.ID_compensacion
+inner join instalacion_de_produccion on finanza_flujo_de_caja.ID_instalacion = instalacion_de_produccion.ID_instalacion
+inner join produccion_marca on instalacion_de_produccion.ID_produccion = produccion_marca.ID_produccion
+
+
+go
+
+exec finanza_estado
+
+ /* comparacion caja */
+create proc finanza_adquirida
+as
+
+select finanza_total
+from finanza_flujo_de_caja
+
+go
+
+exec finanza_adquirida
+
+
+/*RATIO-Decisiones (Marca mas invertida)*/
+
+alter proc Ratio_decisiones
+as
+select descripcion_produccion_de_marca [Marca], cast((total_recompensa - valor_de_instalacion) + valor_produccion as int) [TOTAL]
+from compensacion
+inner join finanza_flujo_de_caja on compensacion.ID_compensacion = finanza_flujo_de_caja.ID_compensacion
+inner join instalacion_de_produccion on finanza_flujo_de_caja.ID_instalacion = instalacion_de_produccion.ID_instalacion
+inner join produccion_marca on instalacion_de_produccion.ID_produccion = produccion_marca.ID_produccion
+
+go
+
+exec Ratio_decisiones
+
+
+/* Informe de mercado */
+
+create proc mercado
+as
+select descripcion_de_almacenamiento [Almacen], localizacion, Descripcion_de_instalacion_de_produccion [Productora], cantidad_produccion_de_marca * valor_produccion [produccion]
+from informe_de_mercado
+inner join finanza_flujo_de_caja on informe_de_mercado.ID_informe_mercado = finanza_flujo_de_caja.ID_informe_mercado
+inner join instalacion_de_produccion on finanza_flujo_de_caja.ID_instalacion = instalacion_de_produccion.ID_instalacion
+inner join produccion_marca on instalacion_de_produccion.ID_produccion = produccion_marca.ID_produccion
+inner join compensacion on finanza_flujo_de_caja.ID_compensacion = compensacion.ID_compensacion
+inner join distribucion_y_almacenamiento on instalacion_de_produccion.almacenamiento_ID = distribucion_y_almacenamiento.almacenamiento_ID
+go
+exec mercado
+
+
+/* Informe de recursos humanos */
+
+select * from responsabilidad_social
+
+create proc RRHH
+as
+select finanza_total + (total_recompensa - valor_de_instalacion) + valor_produccion [TOTAL de recursos humanos]
+from informe_de_RRHH
+inner join finanza_flujo_de_caja on informe_de_RRHH.ID_informe_rrhh= finanza_flujo_de_caja.ID_informe_rrhh
+inner join instalacion_de_produccion on finanza_flujo_de_caja.ID_instalacion = instalacion_de_produccion.ID_instalacion
+inner join produccion_marca on instalacion_de_produccion.ID_produccion = produccion_marca.ID_produccion
+inner join compensacion on finanza_flujo_de_caja.ID_compensacion = compensacion.ID_compensacion
+inner join distribucion_y_almacenamiento on instalacion_de_produccion.almacenamiento_ID = distribucion_y_almacenamiento.almacenamiento_ID
+go
+
+exec RRHH
+
+/* Responsabilidad social */
+
+select * from responsabilidad_social
+
+create proc responsabilidad
+as
+select finanza_flujo_de_caja.ID_responsabilidad_social, descripcion_responsabilidad_social, (finanza_total*1.1) - valor_responsabilidad_social [TOTAL]
+from responsabilidad_social
+inner join finanza_flujo_de_caja on responsabilidad_social.ID_responsabilidad_social = finanza_flujo_de_caja.ID_responsabilidad_social
+go
+
+
 
 
 /*  FIN */
