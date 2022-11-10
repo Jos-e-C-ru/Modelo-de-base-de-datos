@@ -742,6 +742,43 @@ inner join finanza_flujo_de_caja on responsabilidad_social.ID_responsabilidad_so
 go
 
 
+exec responsabilidad
+
+
+create proc produccio_de_marca
+as
+
+select descripcion_produccion_de_marca [Marca], cantidad_produccion_de_marca [Cantidad], (cantidad_produccion_de_marca * valor_produccion) [TOTAL]
+from produccion_marca
+inner join instalacion_de_produccion on produccion_marca.ID_produccion = instalacion_de_produccion.ID_produccion
+inner join finanza_flujo_de_caja on instalacion_de_produccion.ID_instalacion = finanza_flujo_de_caja.ID_instalacion
+go
+
+exec produccio_de_marca
+
+
+
+delete instalacion_de_produccion where ID_produccion = 4
+
+
+
+
+/*Informe de costos*/
+create proc informe_costo
+as
+select * from informe_de_costes
+
+alter proc costes_totales
+as
+select informe_de_costes.ID_informe_costes [ID_coste], descripcion_costes, responsabilidad_social.ID_responsabilidad_social , descripcion_responsabilidad_social, finanza_total - (valor_costes*1.1) + (total_costes + valor_responsabilidad_social) [TOTAL]
+from informe_de_costes
+inner join responsabilidad_social on informe_de_costes.ID_responsabilidad_social = responsabilidad_social.ID_responsabilidad_social
+inner join finanza_flujo_de_caja on informe_de_costes.ID_informe_costes = finanza_flujo_de_caja.ID_informe_costes
+inner join instalacion_de_produccion on finanza_flujo_de_caja.ID_instalacion = instalacion_de_produccion.ID_instalacion
+go
+
+exec costes_totales
+
 
 
 /*  FIN */
